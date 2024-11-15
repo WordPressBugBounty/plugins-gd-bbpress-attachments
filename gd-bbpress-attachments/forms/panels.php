@@ -38,7 +38,7 @@ if ( ! isset( $tabs[ $current ] ) ) {
 
 		?>
     </h2>
-    <div id="d4p-panel" class="d4p-panel-<?php echo esc_html( $current ); ?>">
+    <div id="d4p-panel" class="d4p-panel-<?php echo esc_attr( $current ); ?>">
 		<?php include( GDBBPRESSATTACHMENTS_PATH . "forms/tabs/" . esc_attr( $current ) . ".php" ); ?>
     </div>
 </div>

@@ -7,9 +7,9 @@
  * Author:            Milan Petrovic
  * Author URI:        https://www.dev4press.com/
  * Text Domain:       gd-bbpress-attachments
- * Version:           4.7.2
+ * Version:           4.7.3
  * Requires at least: 5.9
- * Tested up to:      6.6
+ * Tested up to:      6.7
  * Requires PHP:      7.4
  * Requires Plugins:  bbpress
  * License:           GPLv3 or later

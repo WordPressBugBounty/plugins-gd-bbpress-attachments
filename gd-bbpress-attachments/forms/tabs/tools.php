@@ -27,7 +27,7 @@ $admin = "edit.php?post_type=forum&page=gdbbpress_attachments&tab=tools&action=c
 			<?php esc_html_e( 'Total number of posts', 'gd-bbpress-attachments' ); ?>: <strong><?php echo esc_html( $tools['totals']['posts'] ); ?></strong><br/>
         </p>
 		<?php if ( $tools['totals']['errors'] > 0 ) { ?>
-            <a class="button-primary" href="<?php echo admin_url( $admin ); ?>"><?php esc_html_e( 'Clear all upload errors', 'gd-bbpress-attachments' ); ?></a>
+            <a class="button-primary" href="<?php echo esc_url( admin_url( $admin ) ); ?>"><?php esc_html_e( 'Clear all upload errors', 'gd-bbpress-attachments' ); ?></a>
 		<?php } else { ?>
             <strong><?php esc_html_e( 'Nothing to clear', 'gd-bbpress-attachments' ); ?></strong>
 		<?php } ?>

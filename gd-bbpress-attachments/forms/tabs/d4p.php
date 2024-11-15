@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         <a target="_blank" href="https://www.dev4press.com/plugins/gd-quantum-theme-for-bbpress/">GD Quantum Theme Pro</a><br/>
         <a target="_blank" href="https://www.dev4press.com/plugins/gd-forum-notices-for-bbpress/">GD Forum Notices Pro</a><br/>
         <a target="_blank" href="https://www.dev4press.com/plugins/gd-power-search-for-bbpress/">GD Power Search Pro</a><br/>
-        <a target="_blank" href="https://www.dev4press.com/plugins/gd-topic-prefix/">GD Topic Prefix Pro</a><br/>
-        <a target="_blank" href="https://www.dev4press.com/plugins/gd-topic-polls/">GD Topic Polls Pro</a><br/>
+        <a target="_blank" href="https://www.dev4press.com/plugins/gd-topic-prefix/">topicPrefix Pro for bbPress</a><br/>
+        <a target="_blank" href="https://www.dev4press.com/plugins/gd-topic-polls/">topicPolls Pro for bbPress</a><br/>
     </fieldset>
 
     <fieldset>
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <a target="_blank" href="https://wordpress.org/plugins/gd-forum-manager-for-bbpress/">GD Forum Manager</a><br/>
         <a target="_blank" href="https://wordpress.org/plugins/gd-bbpress-tools/">GD bbPress Tools</a><br/>
         <a target="_blank" href="https://wordpress.org/plugins/gd-bbpress-attachments/">GD bbPress Attachments</a><br/>
-        <a target="_blank" href="https://wordpress.org/plugins/gd-topic-polls/">GD Topic Polls Lite</a><br/>
+        <a target="_blank" href="https://wordpress.org/plugins/gd-topic-polls/">topicPolls for bbPress</a><br/>
         <a target="_blank" href="https://wordpress.org/plugins/gd-power-search-for-bbpress/">GD Power Search Lite</a><br/>
     </fieldset>
 

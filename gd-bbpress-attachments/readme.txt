@@ -1,11 +1,11 @@
 === GD bbPress Attachments ===
 Contributors: GDragoN
 Donate link: https://www.dev4press.com/plugins/gd-bbpress-attachments/
-Version: 4.7.2
+Version: 4.7.3
 Tags: dev4press, bbpress, attachments, upload, limit
 Requires at least: 5.9
 Requires PHP: 7.4
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -39,7 +39,7 @@ GD bbPress Attachments 4.7 supports bbPress 2.6.2 or newer. Older bbPress versio
 * [GD Members Directory](https://wordpress.org/plugins/gd-members-directory-for-bbpress/) - add new page with list of all forum members
 * [GD Power Search](https://wordpress.org/plugins/gd-power-search-for-bbpress/) - add advanced search to the bbPress topics
 * [GD bbPress Tools](https://wordpress.org/plugins/gd-bbpress-tools/) - various expansion tools for forums
-* [GD Topic Polls](https://wordpress.org/plugins/gd-topic-polls/) - add polls to the bbPress topics
+* [topicPolls for bbPress](https://wordpress.org/plugins/gd-topic-polls/) - add polls to the bbPress topics
 
 = Upgrade to GD bbPress Toolbox Pro =
 The Pro version contains many more great features:
@@ -123,6 +123,11 @@ Few updates and improvements.
 Tool to cleanup upload error logs. Various updates and improvements.
 
 == Changelog ==
+= 4.7.3 (2024.11.15) =
+* Edit: proper escaping of the URL's in several instances
+* Edit: proper sanitization of the HTML class in few instances
+* Fix: reflected cross-site scripting with the attachment actions
+
 = 4.7.2 (2024.08.19) =
 * Edit: updated links to the Dev4Press website
 * Edit: various PHP code changes and improvements

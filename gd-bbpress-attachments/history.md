@@ -2,6 +2,16 @@
 
 ## Changelog
 
+### Version 4.5 (2023.03.08)
+* **new** Tools tab added to plugin admin page
+* **new** Tools: option to clear all logged upload errors
+* **new** System requirements: PHP 7.3 or newer
+* **new** System requirements: WordPress 5.5 or newer
+* **new** plugin fully tested with PHP 8.0, 8.1 and 8.2
+* **edit** various things in PHP code for better PHP 8.x compatibility
+* **edit** plugin admin interface items for better accessibility
+* **fix** some accessibility issues with options labels
+
 ### Version 4.4 (2022.12.03)
 * **new** plugin is tested with WordPress 6.1
 * **edit** rendering of attachments with improving escaping for attributes

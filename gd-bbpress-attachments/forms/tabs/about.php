@@ -56,6 +56,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 <div class="d4p-clear"></div>
 <div class="d4p-copyright">
-    Dev4Press &copy; 2008 - 2022
+    Dev4Press &copy; 2008 - 2024
     <a target="_blank" href="https://www.dev4press.com/">www.dev4press.com</a>
 </div>

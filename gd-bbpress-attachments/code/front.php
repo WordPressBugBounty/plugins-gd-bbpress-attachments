@@ -291,11 +291,11 @@ class GDATTFront {
 					}
 
 					if ( $allow == 'delete' || $allow == 'both' ) {
-						$actions[] = '<a class="d4p-bba-action-delete" href="' . add_query_arg( 'd4pbbaction', 'delete', $url ) . '">' . esc_html__( 'delete', 'gd-bbpress-attachments' ) . '</a>';
+						$actions[] = '<a class="d4p-bba-action-delete" href="' . esc_url( add_query_arg( 'd4pbbaction', 'delete', $url ) ) . '">' . esc_html__( 'delete', 'gd-bbpress-attachments' ) . '</a>';
 					}
 
 					if ( $allow == 'detach' || $allow == 'both' ) {
-						$actions[] = '<a class="d4p-bba-action-detach" href="' . add_query_arg( 'd4pbbaction', 'detach', $url ) . '">' . esc_html__( 'detach', 'gd-bbpress-attachments' ) . '</a>';
+						$actions[] = '<a class="d4p-bba-action-detach" href="' . esc_url( add_query_arg( 'd4pbbaction', 'detach', $url ) ). '">' . esc_html__( 'detach', 'gd-bbpress-attachments' ) . '</a>';
 					}
 
 					if ( count( $actions ) > 0 ) {
@@ -337,7 +337,7 @@ class GDATTFront {
 
 					$item_class = 'd4p-bbp-attachment d4p-bbp-attachment-' . $ext . ' ' . $class_li;
 
-					$item = '<li id="d4p-bbp-attachment_' . $attachment->ID . '" class="' . esc_attr( $item_class ) . '">';
+					$item = '<li id="d4p-bbp-attachment_' . esc_attr( $attachment->ID ) . '" class="' . esc_attr( sanitize_html_class( $item_class ) ) . '">';
 
 					if ( $html == '' ) {
 						$html = $filename;
@@ -352,7 +352,7 @@ class GDATTFront {
 							$item .= '<div style="width: ' . esc_attr( d4p_bba_o( "image_thumbnail_size_x" ) ) . 'px" class="wp-caption">';
 						}
 
-						$item .= '<a class="' . esc_attr( $class_a ) . '"' . $rel_a . ' href="' . esc_url( $file_url ) . '" title="' . esc_attr( $a_title ) . '">' . $html . '</a>';
+						$item .= '<a class="' . esc_attr( sanitize_html_class( $class_a ) ) . '"' . $rel_a . ' href="' . esc_url( $file_url ) . '" title="' . esc_attr( $a_title ) . '">' . $html . '</a>';
 
 						if ( $caption ) {
 							$a_title = '<a href="' . esc_url( $file_url ) . '" download>' . $a_title . '</a>';
@@ -360,8 +360,8 @@ class GDATTFront {
 							$item .= '<p class="wp-caption-text">' . $a_title . '<br/>' . $actions . '</p></div>';
 						}
 					} else {
-						$item .= '<span role="presentation" class="' . esc_attr( $class_span ) . '"></span> ';
-						$item .= '<div class="d4p-bbp-att-wrapper"><a class="' . esc_attr( $class_a ) . '"' . $rel_a . ' href="' . esc_url( $file_url ) . '" title="' . esc_attr( $a_title ) . '" download>' . $html . '</a>' . $actions . '</div>';
+						$item .= '<span role="presentation" class="' . esc_attr( sanitize_html_class( $class_span ) ) . '"></span> ';
+						$item .= '<div class="d4p-bbp-att-wrapper"><a class="' . esc_attr( sanitize_html_class( $class_a ) ) . '"' . $rel_a . ' href="' . esc_url( $file_url ) . '" title="' . esc_attr( $a_title ) . '" download>' . $html . '</a>' . $actions . '</div>';
 					}
 
 					$item .= '</li>';
@@ -407,7 +407,7 @@ class GDATTFront {
 				$content .= '>';
 
 				foreach ( $errors as $error ) {
-					$content .= '<li class="' . esc_attr( $class_li ) . '"><span role="presentation" class="' . esc_attr( $class_li ) . '"></span> ';
+					$content .= '<li class="' . esc_attr( sanitize_html_class( $class_li ) ) . '"><span role="presentation" class="' . esc_attr( sanitize_html_class( $class_li ) ) . '"></span> ';
 					$content .= '<div class="d4p-bbp-att-wrapper"><strong>' . esc_html( $error['file'] ) . '</strong>: ' . __( $error['message'], "gd-bbpress-attachments" ) . '</div></li>';
 				}
 
