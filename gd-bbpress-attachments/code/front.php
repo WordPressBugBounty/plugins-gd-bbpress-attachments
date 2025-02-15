@@ -295,7 +295,7 @@ class GDATTFront {
 					}
 
 					if ( $allow == 'detach' || $allow == 'both' ) {
-						$actions[] = '<a class="d4p-bba-action-detach" href="' . esc_url( add_query_arg( 'd4pbbaction', 'detach', $url ) ). '">' . esc_html__( 'detach', 'gd-bbpress-attachments' ) . '</a>';
+						$actions[] = '<a class="d4p-bba-action-detach" href="' . esc_url( add_query_arg( 'd4pbbaction', 'detach', $url ) ) . '">' . esc_html__( 'detach', 'gd-bbpress-attachments' ) . '</a>';
 					}
 
 					if ( count( $actions ) > 0 ) {

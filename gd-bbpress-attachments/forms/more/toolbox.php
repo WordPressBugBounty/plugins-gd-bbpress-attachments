@@ -9,25 +9,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="d4p-bbpress-toolbox">
     <fieldset class="the-top">
         <em><?php esc_html_e( 'consider upgrading to', 'gd-bbpress-attachments' ); ?></em>
-        <h3>
-            <a title="GD bbPress Toolbox Pro" target="_blank" href="<?php echo esc_url( d4p_url_campaign_tracking( 'https://www.dev4press.com/plugins/gd-bbpress-toolbox/', 'gd-bbpress-attachments-to-pro', 'wordpress', 'free-plugin-admin' ) ); ?>">GD bbPress Toolbox Pro</a>
+        <h3 style="line-height: 1.5">
+            <a title="forumToolbox for bbPress" target="_blank" href="<?php echo esc_url( d4p_url_campaign_tracking( 'https://www.dev4press.com/plugins/gd-bbpress-toolbox/', 'gd-bbpress-attachments-to-pro', 'wordpress', 'free-plugin-admin' ) ); ?>">forumToolbox Pro for bbPress</a>
         </h3>
+
+        <em>AKA: GD bbPress Toolbox Pro</em>
         <p style="font-weight: bold; font-size: 15px;"><?php esc_html_e( 'Enhancing WordPress forums powered by bbPress', 'gd-bbpress-attachments' ); ?></p>
-        <p><?php esc_html_e( 'Expand bbPress powered forums with attachments upload, BBCodes, signatures, widgets, quotes, topics report, thanks, activity tracking, enhanced widgets, extra views...', 'gd-bbpress-attachments' ); ?></p>
-
-        <h4><?php esc_html_e( 'Important links', 'gd-bbpress-attachments' ); ?></h4>
-        <a href="<?php echo esc_url( d4p_url_campaign_tracking( 'https://www.dev4press.com/plugins/gd-bbpress-toolbox/', 'gd-bbpress-attachments-to-pro', 'wordpress', 'free-plugin-admin' ) ); ?>" target="_blank"><?php esc_html_e( 'Official Plugin Website', 'gd-bbpress-attachments' ); ?></a><br/>
-        <a href="<?php echo esc_url( d4p_url_campaign_tracking( 'https://www.dev4press.com/dev4press-club/', 'gd-bbpress-attachments-to-pro', 'wordpress', 'free-plugin-admin' ) ); ?>" target="_blank"><?php esc_html_e( 'Dev4Press Plugins Club Membership', 'gd-bbpress-attachments' ); ?></a><br/>
     </fieldset>
 
-    <fieldset>
-        <h3><?php esc_html_e( 'Special upgrade discount', 'gd-bbpress-attachments' ); ?></h3>
-        <p><?php echo sprintf( __( 'Buy GD bbPress Toolbox Pro license or Dev4Press Plugins Club Membership license and get %s discount using this coupon', 'gd-bbpress-attachments' ), '<strong>10%</strong>' ); ?>:<br/>
-            <strong style="color: #c00; font-size: 20px;">BBFREETOPRO</strong></p>
-    </fieldset>
+    <a href="<?php echo esc_url( gdbbx_fs()->get_upgrade_url() ); ?>" class="button-primary" style=" margin: 20px 0 0; text-align: center; font-weight: bold; width: 100%; line-height: 3.5; font-size: 1.4em; border-radius: 5px"><?php esc_html_e( 'Upgrade Now', 'gd-bbpress-attachments' ); ?></a>
 
     <fieldset>
-        <p style="font-weight: bold;"><?php esc_html_e( 'Some of the features you will get with GD bbPress Toolbox Pro', 'gd-bbpress-attachments' ); ?></p>
+        <p style="font-weight: bold;"><?php esc_html_e( 'Some of the features you will get with forumToolbox for bbPress', 'gd-bbpress-attachments' ); ?></p>
         <ul>
             <li><?php esc_html_e( 'Enhanced attachments', 'gd-bbpress-attachments' ); ?></li>
             <li><?php esc_html_e( 'Report Topics and Replies', 'gd-bbpress-attachments' ); ?></li>
@@ -41,5 +34,19 @@ if ( ! defined( 'ABSPATH' ) ) {
             <li><?php esc_html_e( '8 Widgets', 'gd-bbpress-attachments' ); ?></li>
             <li><?php esc_html_e( 'and much more...', 'gd-bbpress-attachments' ); ?></li>
         </ul>
+    </fieldset>
+
+    <fieldset>
+        <h3><?php esc_html_e( 'Special upgrade discount', 'gd-bbpress-attachments' ); ?></h3>
+        <p><?php echo sprintf( __( 'Buy forumToolbox Pro for bbPress license or bbPress Plugins Club Membership license and get %s discount using this coupon', 'gd-bbpress-attachments' ), '<strong>10%</strong>' ); ?>:<br/>
+            <strong style="color: #c00; font-size: 20px;">BBFREETOPRO</strong></p>
+    </fieldset>
+
+    <fieldset>
+        <h3><?php esc_html_e( 'More Information', 'gd-bbpress-attachments' ); ?></h3>
+        <p>
+            <a href="<?php echo esc_url( d4p_url_campaign_tracking( 'https://www.dev4press.com/plugins/gd-bbpress-toolbox/', 'gd-bbpress-attachments-to-pro', 'wordpress', 'free-plugin-admin' ) ); ?>" target="_blank"><?php esc_html_e( 'Official Plugin Website', 'gd-bbpress-attachments' ); ?></a><br/>
+            <a href="<?php echo esc_url( d4p_url_campaign_tracking( 'https://www.dev4press.com/bbpress-club/', 'gd-bbpress-attachments-to-pro', 'wordpress', 'free-plugin-admin' ) ); ?>" target="_blank"><?php esc_html_e( 'bbPress Plugins Club Membership', 'gd-bbpress-attachments' ); ?></a><br/>
+        </p>
     </fieldset>
 </div>

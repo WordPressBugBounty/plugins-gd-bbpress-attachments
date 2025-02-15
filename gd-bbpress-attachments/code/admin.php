@@ -5,8 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class GDATTAdmin {
-	private $page_ids = array();
-	private $admin_plugin = false;
+	private array $page_ids = array();
+	private bool $admin_plugin = false;
 
 	public function __construct() {
 		add_action( 'after_setup_theme', array( $this, 'load' ) );
@@ -76,7 +76,8 @@ class GDATTAdmin {
 
 	public function plugin_links( $links, $file ) {
 		if ( $file == 'gd-bbpress-attachments/gd-bbpress-attachments.php' ) {
-			$links[] = '<a target="_blank" style="color: #cc0000; font-weight: bold;" href="https://www.dev4press.com/plugins/gd-bbpress-toolbox/">' . esc_html__( 'Upgrade to GD bbPress Toolbox Pro', 'gd-bbpress-attachments' ) . '</a>';
+			$links[] = esc_html__( 'Learn more about', 'gd-bbpress-attachments' ) . ': <a target="_blank" style="color: #cc0000; font-weight: bold;" href="https://www.dev4press.com/plugins/gd-bbpress-toolbox/">' . esc_html__( 'forumToolbox for bbPress', 'gd-bbpress-attachments' ) . '</a>'.
+			           ' &amp; <a target="_blank" style="color: #cc0000; font-weight: bold;" href="https://www.dev4press.com/bbpress-club/">' . esc_html__( 'Get bbPress Plugins Club Membership', 'gd-bbpress-attachments' ) . '</a>';
 		}
 
 		return $links;
@@ -88,7 +89,8 @@ class GDATTAdmin {
 		$screen->set_help_sidebar( '
             <p><strong>Dev4Press:</strong></p>
             <p><a target="_blank" href="https://www.dev4press.com/">' . esc_html__( 'Website', 'gd-bbpress-attachments' ) . '</a></p>
-            <p><a target="_blank" href="https://twitter.com/milangd">' . esc_html__( 'On Twitter', 'gd-bbpress-attachments' ) . '</a></p>
+            <p><a target="_blank" href="https://bsky.app/profile/dev4press.bsky.social">' . esc_html__( 'On BlueSky', 'gd-bbpress-attachments' ) . '</a></p>
+            <p><a target="_blank" href="https://twitter.com/dev4press">' . esc_html__( 'On Twitter', 'gd-bbpress-attachments' ) . '</a></p>
             <p><a target="_blank" href="https://facebook.com/dev4press">' . esc_html__( 'On Facebook', 'gd-bbpress-attachments' ) . '</a></p>' );
 
 		$screen->add_help_tab( array(
@@ -117,6 +119,6 @@ class GDATTAdmin {
 		$options     = GDATTCore::instance()->o;
 		$_user_roles = d4p_bbpress_get_user_roles();
 
-		include( GDBBPRESSATTACHMENTS_PATH . 'forms/panels.php' );
+		include GDBBPRESSATTACHMENTS_PATH . 'forms/panels.php';
 	}
 }

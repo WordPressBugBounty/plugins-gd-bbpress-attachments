@@ -1,12 +1,11 @@
 === GD bbPress Attachments ===
 Contributors: GDragoN
 Donate link: https://www.dev4press.com/plugins/gd-bbpress-attachments/
-Version: 4.7.3
+Stable tag: 4.8
 Tags: dev4press, bbpress, attachments, upload, limit
-Requires at least: 5.9
+Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.7
-Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -32,17 +31,17 @@ GD bbPress Attachments is an easy-to-use plugin for WordPress and bbPress for im
 * Administration: metabox with attachments list and errors for topics and replies.
 
 = bbPress Plugin Versions =
-GD bbPress Attachments 4.7 supports bbPress 2.6.2 or newer. Older bbPress versions are no longer supported!
+GD bbPress Attachments 4.8 supports bbPress 2.6.2 or newer. Older bbPress versions are no longer supported!
 
 = More free Dev4Press plugins for bbPress =
 * [GD Forum Manager](https://wordpress.org/plugins/gd-forum-manager-for-bbpress/) - quick and bulk forums and topics edit
 * [GD Members Directory](https://wordpress.org/plugins/gd-members-directory-for-bbpress/) - add new page with list of all forum members
-* [GD Power Search](https://wordpress.org/plugins/gd-power-search-for-bbpress/) - add advanced search to the bbPress topics
 * [GD bbPress Tools](https://wordpress.org/plugins/gd-bbpress-tools/) - various expansion tools for forums
+* [powerSearch for bbPress](https://wordpress.org/plugins/gd-power-search-for-bbpress/) - add advanced search to the bbPress topics
 * [topicPolls for bbPress](https://wordpress.org/plugins/gd-topic-polls/) - add polls to the bbPress topics
 
-= Upgrade to GD bbPress Toolbox Pro =
-The Pro version contains many more great features:
+= Upgrade to forumToolbox for bbPress =
+The Pro version contains 63 features, with over 500 options to control the integration:
 
 * Enhanced attachments features
 * Limit file types attachments upload
@@ -69,10 +68,10 @@ The Pro version contains many more great features:
 * Many great tweaks
 * And much, much more
 
-With more features on the roadmap exclusively for Pro version.
+With more features on the roadmap exclusively for a Pro version.
 
-* More information about [GD bbPress Toolbox Pro](https://www.dev4press.com/plugins/gd-bbpress-toolbox/)
-* More Premium plugins for bbPress [bbPress Plugins Club](https://www.dev4press.com/bbpress-club/)
+* More information about [forumToolbox for bbbPress](https://www.dev4press.com/plugins/gd-bbpress-toolbox/)
+* More Premium plugins with [bbPress Plugins Club](https://www.dev4press.com/bbpress-club/)
 
 == Installation ==
 = General Requirements =
@@ -113,16 +112,24 @@ Another common issue is that WordPress Media Library upload is not working. If t
 No. This plugin requires the plugin versions of bbPress 2.6.2 or higher.
 
 == Upgrade Notice ==
+= 4.8 =
+Few updates and improvements.
+
 = 4.7 =
 Few updates and improvements.
 
 = 4.6 =
 Few updates and improvements.
 
-= 4.5 =
-Tool to cleanup upload error logs. Various updates and improvements.
-
 == Changelog ==
+= 4.8 (2025.02.15) =
+* New: integration with `Freemius SDK`
+* New: option to upgrade to `forumToolbox for bbPress`
+* Edit: a lot of small PHP code related updates
+* Edit: changes to many of the links nad plugin names
+* Fix: problem with the plugin directory name
+* Fix: issue with loading plugin translation files
+
 = 4.7.3 (2024.11.15) =
 * Edit: proper escaping of the URL's in several instances
 * Edit: proper sanitization of the HTML class in few instances

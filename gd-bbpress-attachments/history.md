@@ -2,6 +2,13 @@
 
 ## Changelog
 
+### Version 4.6 (2023.05.26)
+* **new** filter `d4p_bbpressattchment_login_url` for the login URL
+* **new** FAQ information included in the plugin readme file
+* **new** plugin is tested with the upload of the WEBP images
+* **edit** more settings page with use of escaping for attributes
+* **edit** icons format definition for attached files
+
 ### Version 4.5 (2023.03.08)
 * **new** Tools tab added to plugin admin page
 * **new** Tools: option to clear all logged upload errors

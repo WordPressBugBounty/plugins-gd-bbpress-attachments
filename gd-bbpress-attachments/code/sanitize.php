@@ -53,7 +53,7 @@ if ( ! function_exists( 'd4p_sanitize_slug' ) ) {
 
 if ( ! function_exists( 'd4p_sanitize_html_classes' ) ) {
 	function d4p_sanitize_html_classes( $classes ) : string {
-		$list = explode( ' ', trim( stripslashes( $classes ) ) );
+		$list = is_array( $classes ) ? $classes : explode( ' ', trim( stripslashes( $classes ) ) );
 		$list = array_map( 'sanitize_html_class', $list );
 
 		return trim( join( ' ', $list ) );

@@ -15,7 +15,9 @@ class GDATTCore {
 	public function __construct() {
 		global $wp_version;
 
-		$this->wp_version = substr( str_replace( '.', '', $wp_version ), 0, 2 );
+		$this->plugin_path = GDBBPRESSATTACHMENTS_PATH;
+		$this->plugin_url  = GDBBPRESSATTACHMENTS_URL;
+		$this->wp_version  = substr( str_replace( '.', '', $wp_version ), 0, 2 );
 
 		$gdd = new GDATTDefaults();
 
@@ -40,12 +42,6 @@ class GDATTCore {
 
 		define( 'GDBBPRESSATTACHMENTS_INSTALLED', $gdd->default_options['version'] . ' Free' );
 		define( 'GDBBPRESSATTACHMENTS_VERSION', $gdd->default_options['version'] . '_b' . ( $gdd->default_options['build'] . '_free' ) );
-
-		$this->plugin_path = dirname( __FILE__, 2 ) . '/';
-		$this->plugin_url  = plugins_url( '/gd-bbpress-attachments/' );
-
-		define( 'GDBBPRESSATTACHMENTS_URL', $this->plugin_url );
-		define( 'GDBBPRESSATTACHMENTS_PATH', $this->plugin_path );
 
 		add_action( 'after_setup_theme', array( $this, 'load' ), 5 );
 	}
@@ -82,7 +78,7 @@ class GDATTCore {
 	}
 
 	public function load() {
-		load_plugin_textdomain( 'gd-bbpress-attachments', false, 'gd-bbpress-attachments/languages' );
+		load_plugin_textdomain( 'gd-bbpress-attachments' );
 
 		add_action( 'init', array( $this, 'init_thumbnail_size' ), 1 );
 		add_action( 'init', array( $this, 'delete_attachments' ) );
