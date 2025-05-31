@@ -2,6 +2,14 @@
 
 ## Changelog
 
+### Version: 4.9 (2025.05.31)
+* **new** tested with `WordPress` 6.8
+* **new** tested with `bbPress` up to 2.6.13
+* **edit** additional validation and sanitization
+* **edit** various minor tweaks and updates
+* **edit** Freemius SDK 2.12.0
+* **fix** early triggering of the translation functions
+
 ### Version: 4.8 (2025.02.15)
 * **new** integration with `Freemius SDK`
 * **new** option to upgrade to `forumToolbox for bbPress`

@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$options = $options ?? array();
+
 ?>
 
 <div class="d4p-information">

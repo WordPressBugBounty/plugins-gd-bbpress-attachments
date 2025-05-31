@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$current = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'attachments';
+$current = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'attachments'; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 $tabs = array(
 	'attachments' => '<span class="dashicons dashicons-admin-settings" title="' . esc_attr__( 'Settings', 'gd-bbpress-attachments' ) . '"></span><span class="tab-title"> ' . esc_html__( 'Settings', 'gd-bbpress-attachments' ) . '</span>',
@@ -33,7 +33,7 @@ if ( ! isset( $tabs[ $current ] ) ) {
 				$class .= ' d4p-tab-toolbox';
 			}
 
-			echo '<a class="nav-tab' . esc_attr( $class ) . '" href="edit.php?post_type=forum&page=gdbbpress_attachments&tab=' . esc_attr( $tab ) . '">' . $name . '</a>';
+			echo '<a class="nav-tab' . esc_attr( $class ) . '" href="edit.php?post_type=forum&page=gdbbpress_attachments&tab=' . esc_attr( $tab ) . '">' . $name . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		?>

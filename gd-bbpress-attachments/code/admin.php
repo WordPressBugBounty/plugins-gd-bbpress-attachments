@@ -23,15 +23,17 @@ class GDATTAdmin {
 	}
 
 	public function admin_init() {
-		if ( isset( $_GET['page'] ) ) {
-			$this->admin_plugin = $_GET['page'] == 'gdbbpress_attachments';
-		}
+		$_page   = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$_tab    = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : ''; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$_action = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : ''; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		$this->admin_plugin = $_page === 'gdbbpress_attachments';
 
 		if ( $this->admin_plugin ) {
 			wp_enqueue_style( 'gd-bbpress-attachments', GDBBPRESSATTACHMENTS_URL . "css/admin.css", array(), GDBBPRESSATTACHMENTS_VERSION );
 
-			if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'tools' ) {
-				if ( isset( $_GET['action'] ) ) {
+			if ( $_tab === 'tools' ) {
+				if ( ! empty( $_action ) ) {
 					require_once( GDBBPRESSATTACHMENTS_PATH . 'code/tools.php' );
 
 					GDATTTools::instance()->process_action();
@@ -76,7 +78,7 @@ class GDATTAdmin {
 
 	public function plugin_links( $links, $file ) {
 		if ( $file == 'gd-bbpress-attachments/gd-bbpress-attachments.php' ) {
-			$links[] = esc_html__( 'Learn more about', 'gd-bbpress-attachments' ) . ': <a target="_blank" style="color: #cc0000; font-weight: bold;" href="https://www.dev4press.com/plugins/gd-bbpress-toolbox/">' . esc_html__( 'forumToolbox for bbPress', 'gd-bbpress-attachments' ) . '</a>'.
+			$links[] = esc_html__( 'Learn more about', 'gd-bbpress-attachments' ) . ': <a target="_blank" style="color: #cc0000; font-weight: bold;" href="https://www.dev4press.com/plugins/gd-bbpress-toolbox/">' . esc_html__( 'forumToolbox for bbPress', 'gd-bbpress-attachments' ) . '</a>' .
 			           ' &amp; <a target="_blank" style="color: #cc0000; font-weight: bold;" href="https://www.dev4press.com/bbpress-club/">' . esc_html__( 'Get bbPress Plugins Club Membership', 'gd-bbpress-attachments' ) . '</a>';
 		}
 

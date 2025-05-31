@@ -23,8 +23,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         <a target="_blank" href="https://wordpress.org/plugins/gd-forum-manager-for-bbpress/">GD Forum Manager</a><br/>
         <a target="_blank" href="https://wordpress.org/plugins/gd-bbpress-tools/">GD bbPress Tools</a><br/>
         <a target="_blank" href="https://wordpress.org/plugins/gd-bbpress-attachments/">GD bbPress Attachments</a><br/>
-        <a target="_blank" href="https://wordpress.org/plugins/gd-topic-polls/">topicPolls for bbPress</a><br/>
-        <a target="_blank" href="https://wordpress.org/plugins/gd-power-search-for-bbpress/">GD Power Search Lite</a><br/>
+        <a target="_blank" href="https://wordpress.org/plugins/gd-topic-polls/">topicPolls for bbPress (Lite)</a><br/>
+        <a target="_blank" href="https://wordpress.org/plugins/gd-power-search-for-bbpress/">powerSearch for bbPress (Lite)</a><br/>
     </fieldset>
 
     <fieldset>

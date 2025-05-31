@@ -38,10 +38,10 @@ function d4p_topic_attachments_count( $topic_id, $include_replies = false ) : in
 	$sql = "select ID from " . $wpdb->posts . " where post_parent = " . $topic_id . " and post_type = 'attachment'";
 
 	if ( $include_replies ) {
-		$sql = "(" . $sql . ") union (select ID from " . $wpdb->posts . " where post_parent in (select ID from " . $wpdb->posts . " where post_parent = " . $topic_id . " and post_type = 'reply') and post_type = 'attachment')";
+		$sql = "(" . $sql . ") union (select ID from " . $wpdb->posts . " where post_parent in (select ID from " . $wpdb->posts . " where post_parent = " . absint( $topic_id ) . " and post_type = 'reply') and post_type = 'attachment')";
 	}
 
-	$attachments = $wpdb->get_results( $sql );
+	$attachments = $wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	return count( $attachments );
 }

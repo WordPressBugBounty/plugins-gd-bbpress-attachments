@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$file_size = $file_size ?? 512;
+
 ?>
 
 <fieldset class="bbp-form">
@@ -13,7 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			$size = $file_size < 1024 ? $file_size . " KB" : floor( $file_size / 1024 ) . " MB";
 
-			printf( __( 'Maximum file size allowed is %s.', 'gd-bbpress-attachments' ), $size );
+	        /* translators: 1: Allowed size value. */
+			printf( esc_html__( 'Maximum file size allowed is %s.', 'gd-bbpress-attachments' ), $size ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			?></p>
     </div>

@@ -115,7 +115,7 @@ if ( ! function_exists( 'd4p_url_campaign_tracking' ) ) {
 		}
 
 		if ( is_null( $source ) ) {
-			$source = parse_url( get_bloginfo( 'url' ), PHP_URL_HOST );
+			$source = wp_parse_url( get_bloginfo( 'url' ), PHP_URL_HOST );
 		}
 
 		if ( ! empty( $source ) ) {

@@ -6,9 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GDATTDefaults {
 	var $default_options = array(
-		'version'                      => '4.8',
-		'date'                         => '2025.02.15.',
-		'build'                        => 2700,
+		'version'                      => '4.9',
+		'date'                         => '2025.05.31.',
+		'build'                        => 2800,
 		'status'                       => 'Stable',
 		'product_id'                   => 'gd-bbpress-attachments',
 		'edition'                      => 'free',
@@ -42,14 +42,3 @@ class GDATTDefaults {
 	public function __construct() {
 	}
 }
-
-$d4p_upload_error_messages = array(
-	__( 'File exceeds allowed file size.', 'gd-bbpress-attachments' ),
-	__( 'File not uploaded.', 'gd-bbpress-attachments' ),
-	__( 'Upload file size exceeds PHP maximum file size allowed.', 'gd-bbpress-attachments' ),
-	__( 'Upload file size exceeds FORM specified file size.', 'gd-bbpress-attachments' ),
-	__( 'Upload file only partially uploaded.', 'gd-bbpress-attachments' ),
-	__( 'Can\'t write file to the disk.', 'gd-bbpress-attachments' ),
-	__( 'Temporary folder for upload is missing.', 'gd-bbpress-attachments' ),
-	__( 'Server extension restriction stopped upload.', 'gd-bbpress-attachments' ),
-);

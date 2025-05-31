@@ -1,18 +1,18 @@
 === GD bbPress Attachments ===
-Contributors: GDragoN
+Contributors: GDragoN, freemius
 Donate link: https://www.dev4press.com/plugins/gd-bbpress-attachments/
-Stable tag: 4.8
+Stable tag: 4.9
 Tags: dev4press, bbpress, attachments, upload, limit
 Requires at least: 6.0
 Requires PHP: 7.4
-Tested up to: 6.7
+Tested up to: 6.8
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Implement attachments upload to the topics and replies in bbPress plugin through a media library and add additional forum-based controls.
 
 == Description ==
-GD bbPress Attachments is an easy-to-use plugin for WordPress and bbPress for implementing files upload for bbPress Forums topics and replies. You can control file sizes from the main plugin settings panel, or you can change some attachments settings for each forum individually. Currently, included features:
+GD bbPress Attachments is an easy-to-use plugin for WordPress and bbPress for implementing file upload for bbPress Forums topics and replies. You can control file sizes from the main plugin settings panel, or you can change some attachments settings for each forum individually. Currently, included features:
 
 * Attachments are handled through WordPress media library. 
 * Limit the number of files to upload at once.
@@ -41,7 +41,7 @@ GD bbPress Attachments 4.8 supports bbPress 2.6.2 or newer. Older bbPress versio
 * [topicPolls for bbPress](https://wordpress.org/plugins/gd-topic-polls/) - add polls to the bbPress topics
 
 = Upgrade to forumToolbox for bbPress =
-The Pro version contains 63 features, with over 500 options to control the integration:
+AKA: GD bbPress Toolbox Pro. The Pro version contains 63 features, with over 500 options to control the integration:
 
 * Enhanced attachments features
 * Limit file types attachments upload
@@ -112,16 +112,24 @@ Another common issue is that WordPress Media Library upload is not working. If t
 No. This plugin requires the plugin versions of bbPress 2.6.2 or higher.
 
 == Upgrade Notice ==
+= 4.9 =
+Few updates and improvements.
+
 = 4.8 =
 Few updates and improvements.
 
 = 4.7 =
 Few updates and improvements.
 
-= 4.6 =
-Few updates and improvements.
-
 == Changelog ==
+= 4.9 (2025.05.31) =
+* New: tested with `WordPress` 6.8
+* New: tested with `bbPress` up to 2.6.13
+* Edit: additional validation and sanitization
+* Edit: various minor tweaks and updates
+* Edit: Freemius SDK 2.12.0
+* Fix: early triggering of the translation functions
+
 = 4.8 (2025.02.15) =
 * New: integration with `Freemius SDK`
 * New: option to upgrade to `forumToolbox for bbPress`

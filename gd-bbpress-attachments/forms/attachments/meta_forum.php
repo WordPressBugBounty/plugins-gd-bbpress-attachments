@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$meta = $meta ?? array();
+
 ?>
 
 <input type="hidden" name="gdbbatt_forum_meta" value="edit"/>

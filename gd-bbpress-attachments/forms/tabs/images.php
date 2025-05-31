@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<?php if ( isset( $_GET["settings-updated"] ) && $_GET["settings-updated"] === "true" ) { ?>
+<?php if ( isset( $_GET["settings-updated"] ) && sanitize_text_field( $_GET["settings-updated"]) === "true" ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.MissingUnslash ?>
     <div class="updated">
         <p><strong><?php esc_html_e( 'Settings saved.', 'gd-bbpress-attachments' ); ?></strong></p>
     </div>

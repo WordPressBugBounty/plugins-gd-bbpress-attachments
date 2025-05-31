@@ -38,16 +38,19 @@ class GDATTAdminMeta {
 
 			check_admin_referer( 'gd-bbpress-attachments' );
 
-			GDATTCore::instance()->o['max_file_size']      = absint( $_POST['max_file_size'] );
-			GDATTCore::instance()->o['max_to_upload']      = absint( $_POST['max_to_upload'] );
-			GDATTCore::instance()->o['roles_to_upload']    = (array) $_POST['roles_to_upload'];
+			$roles = wp_unslash( $_POST['roles_to_upload'] ?? array() ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+			GDATTCore::instance()->o['max_file_size']      = absint( $_POST['max_file_size'] ?? 0 );
+			GDATTCore::instance()->o['max_to_upload']      = absint( $_POST['max_to_upload'] ?? 0 );
 			GDATTCore::instance()->o['attachment_icon']    = isset( $_POST['attachment_icon'] ) ? 1 : 0;
 			GDATTCore::instance()->o['attachment_icons']   = isset( $_POST['attachment_icons'] ) ? 1 : 0;
 			GDATTCore::instance()->o['hide_from_visitors'] = isset( $_POST['hide_from_visitors'] ) ? 1 : 0;
 			GDATTCore::instance()->o['include_always']     = isset( $_POST['include_always'] ) ? 1 : 0;
-			GDATTCore::instance()->o['delete_attachments'] = d4p_sanitize_basic( $_POST['delete_attachments'] );
+			GDATTCore::instance()->o['delete_attachments'] = d4p_sanitize_basic( $_POST['delete_attachments'] ?? '' ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			GDATTCore::instance()->o['roles_to_upload']    = $roles;
 
 			update_option( 'gd-bbpress-attachments', GDATTCore::instance()->o );
+
 			wp_redirect( add_query_arg( 'settings-updated', 'true' ) );
 			exit();
 		}
@@ -59,11 +62,12 @@ class GDATTAdminMeta {
 			GDATTCore::instance()->o['errors_visible_to_admins']     = isset( $_POST['errors_visible_to_admins'] ) ? 1 : 0;
 			GDATTCore::instance()->o['errors_visible_to_moderators'] = isset( $_POST['errors_visible_to_moderators'] ) ? 1 : 0;
 			GDATTCore::instance()->o['errors_visible_to_author']     = isset( $_POST['errors_visible_to_author'] ) ? 1 : 0;
-			GDATTCore::instance()->o['delete_visible_to_admins']     = d4p_sanitize_basic( $_POST['delete_visible_to_admins'] );
-			GDATTCore::instance()->o['delete_visible_to_moderators'] = d4p_sanitize_basic( $_POST['delete_visible_to_moderators'] );
-			GDATTCore::instance()->o['delete_visible_to_author']     = d4p_sanitize_basic( $_POST['delete_visible_to_author'] );
+			GDATTCore::instance()->o['delete_visible_to_admins']     = d4p_sanitize_basic( $_POST['delete_visible_to_admins'] ?? '' ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			GDATTCore::instance()->o['delete_visible_to_moderators'] = d4p_sanitize_basic( $_POST['delete_visible_to_moderators'] ?? '' ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			GDATTCore::instance()->o['delete_visible_to_author']     = d4p_sanitize_basic( $_POST['delete_visible_to_author'] ?? '' ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 			update_option( 'gd-bbpress-attachments', GDATTCore::instance()->o );
+
 			wp_redirect( add_query_arg( 'settings-updated', 'true' ) );
 			exit();
 		}
@@ -74,12 +78,13 @@ class GDATTAdminMeta {
 			GDATTCore::instance()->o['image_thumbnail_active']  = isset( $_POST['image_thumbnail_active'] ) ? 1 : 0;
 			GDATTCore::instance()->o['image_thumbnail_inline']  = isset( $_POST['image_thumbnail_inline'] ) ? 1 : 0;
 			GDATTCore::instance()->o['image_thumbnail_caption'] = isset( $_POST['image_thumbnail_caption'] ) ? 1 : 0;
-			GDATTCore::instance()->o['image_thumbnail_rel']     = d4p_sanitize_basic( $_POST['image_thumbnail_rel'] );
-			GDATTCore::instance()->o['image_thumbnail_css']     = d4p_sanitize_basic( $_POST['image_thumbnail_css'] );
-			GDATTCore::instance()->o['image_thumbnail_size_x']  = absint( $_POST['image_thumbnail_size_x'] );
-			GDATTCore::instance()->o['image_thumbnail_size_y']  = absint( $_POST['image_thumbnail_size_y'] );
+			GDATTCore::instance()->o['image_thumbnail_rel']     = d4p_sanitize_basic( $_POST['image_thumbnail_rel'] ?? '' ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			GDATTCore::instance()->o['image_thumbnail_css']     = d4p_sanitize_basic( $_POST['image_thumbnail_css'] ?? '' ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			GDATTCore::instance()->o['image_thumbnail_size_x']  = absint( $_POST['image_thumbnail_size_x'] ?? 0 );
+			GDATTCore::instance()->o['image_thumbnail_size_y']  = absint( $_POST['image_thumbnail_size_y'] ?? 0 );
 
 			update_option( 'gd-bbpress-attachments', GDATTCore::instance()->o );
+
 			wp_redirect( add_query_arg( 'settings-updated', 'true' ) );
 			exit();
 		}
@@ -99,12 +104,12 @@ class GDATTAdminMeta {
 	}
 
 	public function save_edit_forum( $post_id ) {
-		if ( isset( $_POST['post_ID'] ) && $_POST['post_ID'] > 0 ) {
-			$post_id = $_POST['post_ID'];
+		if ( isset( $_POST['post_ID'] ) && $_POST['post_ID'] > 0 ) { //phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$post_id = absint( $_POST['post_ID'] ); //phpcs:ignore WordPress.Security.NonceVerification.Missing
 		}
 
-		if ( isset( $_POST['gdbbatt_forum_meta'] ) && $_POST['gdbbatt_forum_meta'] == 'edit' ) {
-			$data = (array) $_POST['gdbbatt'];
+		if ( isset( $_POST['gdbbatt_forum_meta'] ) && $_POST['gdbbatt_forum_meta'] == 'edit' ) { //phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$data = (array) ( $_POST['gdbbatt'] ?? array() ); //phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$meta = array(
 				'disable'            => isset( $data['disable'] ) ? 1 : 0,
 				'to_override'        => isset( $data['to_override'] ) ? 1 : 0,
@@ -118,7 +123,7 @@ class GDATTAdminMeta {
 	}
 
 	public function admin_post_columns( $columns ) {
-		$columns['gdbbatt_count'] = '<img src="' . GDBBPRESSATTACHMENTS_URL . 'css/gfx/attachment.png" width="16" height="12" alt="' . esc_attr__( 'Attachments', 'gd-bbpress-attachments' ) . '" title="' . __( 'Attachments', 'gd-bbpress-attachments' ) . '" />';
+		$columns['gdbbatt_count'] = '<img src="' . GDBBPRESSATTACHMENTS_URL . 'css/gfx/attachment.png" width="16" height="12" alt="' . esc_attr__( 'Attachments', 'gd-bbpress-attachments' ) . '" title="' . __( 'Attachments', 'gd-bbpress-attachments' ) . '" />'; //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 
 		return $columns;
 	}

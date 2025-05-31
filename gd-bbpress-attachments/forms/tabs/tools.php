@@ -11,7 +11,7 @@ $admin = "edit.php?post_type=forum&page=gdbbpress_attachments&tab=tools&action=c
 
 ?>
 
-<?php if ( isset( $_GET["tools-errors-clear"] ) ) { ?>
+<?php if ( isset( $_GET["tools-errors-clear"] ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
     <div class="updated">
         <p><strong><?php esc_html_e( 'All logged upload errors have been removed.', 'gd-bbpress-attachments' ); ?></strong></p>
     </div>

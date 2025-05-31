@@ -120,22 +120,22 @@ class GDATTFront {
 		$uploads  = array();
 		$revision = false;
 
-		if ( ! empty( $_FILES ) && ! empty( $_FILES['d4p_attachment'] ) ) {
+		if ( ! empty( $_FILES ) && ! empty( $_FILES['d4p_attachment'] ) ) { //phpcs:ignore 	WordPress.Security.NonceVerification.Missing
 			require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
 			$errors    = new gdbbp_Error();
 			$overrides = array( 'test_form' => false, 'upload_error_handler' => 'd4p_bbattachment_handle_upload_error' );
 
-			foreach ( $_FILES['d4p_attachment']['error'] as $key => $error ) {
-				$file_name = $_FILES['d4p_attachment']['name'][ $key ];
+			foreach ( $_FILES['d4p_attachment']['error'] as $key => $error ) { //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$file_name = $_FILES['d4p_attachment']['name'][ $key ]; //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 				if ( $error == UPLOAD_ERR_OK ) {
 					$file = array(
 						'name'     => $file_name,
-						'type'     => $_FILES['d4p_attachment']['type'][ $key ],
-						'size'     => $_FILES['d4p_attachment']['size'][ $key ],
-						'tmp_name' => $_FILES['d4p_attachment']['tmp_name'][ $key ],
-						'error'    => $_FILES['d4p_attachment']['error'][ $key ],
+						'type'     => $_FILES['d4p_attachment']['type'][ $key ], //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						'size'     => $_FILES['d4p_attachment']['size'][ $key ], //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						'tmp_name' => $_FILES['d4p_attachment']['tmp_name'][ $key ], //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						'error'    => $_FILES['d4p_attachment']['error'][ $key ], //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 					);
 
 					$file_name = sanitize_file_name( $file_name );
@@ -238,7 +238,7 @@ class GDATTFront {
 		$count    = d4p_topic_attachments_count( $topic_id, true );
 
 		if ( $count > 0 ) {
-			echo '<span class="bbp-attachments-count" title="' . $count . ' ' . _n( 'attachment', 'attachments', $count, 'gd-bbpress-attachments' ) . '"></span>';
+			echo '<span class="bbp-attachments-count" title="' . $count . ' ' . _n( 'attachment', 'attachments', $count, 'gd-bbpress-attachments' ) . '"></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 
@@ -257,6 +257,7 @@ class GDATTFront {
 			if ( ! is_user_logged_in() && GDATTCore::instance()->is_hidden_from_visitors() ) {
 				$login_url = apply_filters( 'd4p_bbpressattchment_login_url', wp_login_url( get_permalink() ), $post );
 
+				/* translators: 1: Replaced with Login URL. */
 				$content .= sprintf( __( 'You must be <a href=\'%s\'>logged in</a> to view attached files.', 'gd-bbpress-attachments' ), $login_url );
 			} else {
 				$listing    = '<ol';
@@ -408,7 +409,7 @@ class GDATTFront {
 
 				foreach ( $errors as $error ) {
 					$content .= '<li class="' . esc_attr( sanitize_html_class( $class_li ) ) . '"><span role="presentation" class="' . esc_attr( sanitize_html_class( $class_li ) ) . '"></span> ';
-					$content .= '<div class="d4p-bbp-att-wrapper"><strong>' . esc_html( $error['file'] ) . '</strong>: ' . __( $error['message'], "gd-bbpress-attachments" ) . '</div></li>';
+					$content .= '<div class="d4p-bbp-att-wrapper"><strong>' . esc_html( $error['file'] ) . '</strong>: ' . esc_html__( $error["message"], "gd-bbpress-attachments" ) . '</div></li>'; //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				}
 
 				$content .= '</ol></div>';
@@ -434,3 +435,14 @@ class GDATTFront {
 		include( GDBBPRESSATTACHMENTS_PATH . 'forms/uploader.php' );
 	}
 }
+
+$d4p_upload_error_messages = array(
+	__( 'File exceeds allowed file size.', 'gd-bbpress-attachments' ),
+	__( 'File not uploaded.', 'gd-bbpress-attachments' ),
+	__( 'Upload file size exceeds PHP maximum file size allowed.', 'gd-bbpress-attachments' ),
+	__( 'Upload file size exceeds FORM specified file size.', 'gd-bbpress-attachments' ),
+	__( 'Upload file only partially uploaded.', 'gd-bbpress-attachments' ),
+	__( 'Can\'t write file to the disk.', 'gd-bbpress-attachments' ),
+	__( 'Temporary folder for upload is missing.', 'gd-bbpress-attachments' ),
+	__( 'Server extension restriction stopped upload.', 'gd-bbpress-attachments' ),
+);

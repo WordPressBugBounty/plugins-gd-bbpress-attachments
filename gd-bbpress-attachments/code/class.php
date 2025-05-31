@@ -104,14 +104,18 @@ class GDATTCore {
 
 	public function delete_attachments() {
 		if ( isset( $_GET['d4pbbaction'] ) ) {
-			$nonce = wp_verify_nonce( $_GET['_wpnonce'], 'd4p-bbpress-attachments' );
+			$nonce = wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ?? '' ) ), 'd4p-bbpress-attachments' );
 
 			if ( $nonce ) {
 				global $user_ID;
 
-				$action = $_GET['d4pbbaction'];
-				$att_id = intval( $_GET['att_id'] );
-				$bbp_id = intval( $_GET['bbp_id'] );
+				$action = sanitize_text_field( wp_unslash( $_GET['d4pbbaction'] ) );
+				$att_id = absint( $_GET['att_id'] ?? 0 );
+				$bbp_id = absint( $_GET['bbp_id'] ?? 0 );
+
+				if ( $att_id == 0 || $bbp_id == 0 ) {
+					return;
+				}
 
 				$post      = get_post( $bbp_id );
 				$author_ID = $post->post_author;
@@ -141,7 +145,8 @@ class GDATTCore {
 
 				if ( $action == 'detach' && ( $allow == 'detach' || $allow == 'both' ) ) {
 					global $wpdb;
-					$wpdb->update( $wpdb->posts, array( 'post_parent' => 0 ), array( 'ID' => $att_id ) );
+
+					$wpdb->update( $wpdb->posts, array( 'post_parent' => 0 ), array( 'ID' => $att_id ) ); //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 
 					add_post_meta( $bbp_id, '_bbp_attachment_log', array(
 							'code' => 'detach_attachment',
@@ -172,7 +177,10 @@ class GDATTCore {
 				} else if ( $this->o['delete_attachments'] == 'detach' ) {
 					global $wpdb;
 
-					$wpdb->update( $wpdb->posts, array( 'post_parent' => 0 ), array( 'post_parent' => $id, 'post_type' => 'attachment' ) );
+					$wpdb->update( $wpdb->posts, array( 'post_parent' => 0 ), array(
+						'post_parent' => $id,
+						'post_type'   => 'attachment',
+					) ); //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 				}
 			}
 		}
