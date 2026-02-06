@@ -2,6 +2,19 @@
 
 ## Changelog
 
+### Version: 4.9.3 (2025.12.26)
+
+* **fix** issue with composer installation content hash
+
+### Version: 4.9.2 (2025.12.17)
+
+* **fix** server reported upload errors were not handled properly
+
+### Version: 4.9.1 (2025.11.14)
+* **new** tested with `WordPress` 6.9
+* **new** tested with `bbPress` up to 2.6.14
+* **edit** Freemius SDK 2.13.0
+
 ### Version: 4.9 (2025.05.31)
 * **new** tested with `WordPress` 6.8
 * **new** tested with `bbPress` up to 2.6.13

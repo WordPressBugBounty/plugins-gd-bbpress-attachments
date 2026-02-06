@@ -35,7 +35,7 @@ $options = $options ?? array();
 		esc_html_e( 'PHP: ', 'gd-bbpress-attachments' );
 		echo '<strong>7.4 or newer</strong><br/>';
 		esc_html_e( 'WordPress: ', 'gd-bbpress-attachments' );
-		echo '<strong>5.9 or newer</strong><br/>';
+		echo '<strong>6.0 or newer</strong><br/>';
 		esc_html_e( 'bbPress: ', 'gd-bbpress-attachments' );
 		echo '<strong>2.6.2 or newer</strong>';
 

@@ -5,12 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! function_exists( 'gdbbx_fs' ) ) {
-	// Create a helper function for easy SDK access.
 	function gdbbx_fs() {
 		global $gdbbx_fs;
 
 		if ( ! isset( $gdbbx_fs ) ) {
-			// Include Freemius SDK.
 			$gdbbx_fs = fs_dynamic_init( array(
 				'id'                  => '17805',
 				'slug'                => 'gd-bbpress-attachments',
@@ -24,7 +22,7 @@ if ( ! function_exists( 'gdbbx_fs' ) ) {
 				'has_paid_plans'      => true,
 				'trial'               => array(
 					'days'               => 7,
-					'is_require_payment' => false,
+					'is_require_payment' => true,
 				),
 				'menu'                => array(
 					'slug'    => 'gdbbpress_attachments',
@@ -39,9 +37,7 @@ if ( ! function_exists( 'gdbbx_fs' ) ) {
 		return $gdbbx_fs;
 	}
 
-	// Init Freemius.
 	gdbbx_fs();
-	// Signal that SDK was initiated.
 	do_action( 'gdbbx_fs_loaded' );
 
 	function forumtoolbox_premium_support_forum_url( $support_forum_url ) : string {
@@ -54,4 +50,12 @@ if ( ! function_exists( 'gdbbx_fs' ) ) {
 
 	gdbbx_fs()->add_filter( 'pricing/disable_single_package', '__return_true' );
 	gdbbx_fs()->add_filter( 'pricing/show_annual_in_monthly', '__return_false' );
+
+	gdbbx_fs()->add_filter( 'checkout/parameters', function() {
+		return array(
+			'show_refund_badge'      => true,
+			'show_reviews'           => true,
+			'billing_cycle_selector' => 'dropdown',
+		);
+	} );
 }

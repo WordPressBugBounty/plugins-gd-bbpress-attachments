@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => 'faabc07052d4a7244851de2e7f28a75604ee23f5',
+        'pretty_version' => 'dev-freemius',
+        'version' => 'dev-freemius',
+        'reference' => '6efd3d212cff4732ce21fe012f92ad365d9680b5',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,18 +11,18 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'faabc07052d4a7244851de2e7f28a75604ee23f5',
+            'pretty_version' => 'dev-freemius',
+            'version' => 'dev-freemius',
+            'reference' => '6efd3d212cff4732ce21fe012f92ad365d9680b5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'freemius/wordpress-sdk' => array(
-            'pretty_version' => '2.12.0',
-            'version' => '2.12.0.0',
-            'reference' => 'db6f35a2b3d318a53330409dbeab49156ee76dd8',
+            'pretty_version' => '2.13.0',
+            'version' => '2.13.0.0',
+            'reference' => '3cbe98b5bd0b0fb5ca4df97b8088592737ea4375',
             'type' => 'library',
             'install_path' => __DIR__ . '/../freemius/wordpress-sdk',
             'aliases' => array(),

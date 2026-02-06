@@ -154,25 +154,27 @@ class GDATTFront {
 				} else {
 					switch ( $error ) {
 						default:
-						case 'UPLOAD_ERR_NO_FILE':
+							$errors->add( 'php_upload', 'File upload error.', $file_name );
+							break;
+						case UPLOAD_ERR_NO_FILE:
 							$errors->add( 'php_upload', 'File not uploaded.', $file_name );
 							break;
-						case 'UPLOAD_ERR_INI_SIZE':
+						case UPLOAD_ERR_INI_SIZE:
 							$errors->add( 'php_upload', 'Upload file size exceeds PHP maximum file size allowed.', $file_name );
 							break;
-						case 'UPLOAD_ERR_FORM_SIZE':
+						case UPLOAD_ERR_FORM_SIZE:
 							$errors->add( 'php_upload', 'Upload file size exceeds FORM specified file size.', $file_name );
 							break;
-						case 'UPLOAD_ERR_PARTIAL':
+						case UPLOAD_ERR_PARTIAL:
 							$errors->add( 'php_upload', 'Upload file only partially uploaded.', $file_name );
 							break;
-						case 'UPLOAD_ERR_CANT_WRITE':
+						case UPLOAD_ERR_CANT_WRITE:
 							$errors->add( 'php_upload', 'Can\'t write file to the disk.', $file_name );
 							break;
-						case 'UPLOAD_ERR_NO_TMP_DIR':
+						case UPLOAD_ERR_NO_TMP_DIR:
 							$errors->add( 'php_upload', 'Temporary folder for upload is missing.', $file_name );
 							break;
-						case 'UPLOAD_ERR_EXTENSION':
+						case UPLOAD_ERR_EXTENSION:
 							$errors->add( 'php_upload', 'Server extension restriction stopped upload.', $file_name );
 							break;
 					}
