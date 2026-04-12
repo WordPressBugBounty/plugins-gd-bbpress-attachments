@@ -1,11 +1,11 @@
 === GD bbPress Attachments ===
 Contributors: GDragoN, freemius
 Donate link: https://www.dev4press.com/plugins/gd-bbpress-attachments/
-Stable tag: 4.9.3
+Stable tag: 4.9.4
 Tags: dev4press, bbpress, attachments, upload, limit
-Requires at least: 6.0
+Requires at least: 6.2
 Requires PHP: 7.4
-Tested up to: 6.9
+Tested up to: 7.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -78,7 +78,7 @@ With more features on the roadmap exclusively for a Pro version.
 * PHP: 7.4 or newer
 
 = WordPress Requirements =
-* WordPress: 5.9 or newer
+* WordPress: 6.2 or newer
 
 = bbPress Requirements =
 * bbPress Plugin: 2.6.2 or newer
@@ -122,7 +122,10 @@ Few updates and improvements.
 Few updates and improvements.
 
 == Changelog ==
-= 4.9.2 (2025.12.26) =
+= 4.9.4 (2026.04.12) =
+* Edit: Freemius SDK 2.13.1
+
+= 4.9.3 (2025.12.26) =
 * Fix: issue with composer installation content hash
 
 = 4.9.2 (2025.12.17) =

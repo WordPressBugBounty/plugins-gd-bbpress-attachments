@@ -35,7 +35,7 @@ $options = $options ?? array();
 		esc_html_e( 'PHP: ', 'gd-bbpress-attachments' );
 		echo '<strong>7.4 or newer</strong><br/>';
 		esc_html_e( 'WordPress: ', 'gd-bbpress-attachments' );
-		echo '<strong>6.0 or newer</strong><br/>';
+		echo '<strong>6.2 or newer</strong><br/>';
 		esc_html_e( 'bbPress: ', 'gd-bbpress-attachments' );
 		echo '<strong>2.6.2 or newer</strong>';
 
@@ -58,6 +58,6 @@ $options = $options ?? array();
 </div>
 <div class="d4p-clear"></div>
 <div class="d4p-copyright">
-    Dev4Press &copy; 2008 - 2025
+    Dev4Press &copy; 2008 - 2026
     <a target="_blank" href="https://www.dev4press.com/">www.dev4press.com</a>
 </div>

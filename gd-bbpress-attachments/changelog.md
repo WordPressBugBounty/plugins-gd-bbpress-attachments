@@ -2,6 +2,10 @@
 
 ## Changelog
 
+### Version: 4.9.4 (2026.04.12)
+
+* **edit** Freemius SDK 2.13.1
+
 ### Version: 4.9.3 (2025.12.26)
 
 * **fix** issue with composer installation content hash
