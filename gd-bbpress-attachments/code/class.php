@@ -5,20 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class GDATTCore {
-	private $wp_version;
-	private $plugin_path;
-	private $plugin_url;
-
 	public $l;
 	public $o;
 
 	public function __construct() {
-		global $wp_version;
-
-		$this->plugin_path = GDBBPRESSATTACHMENTS_PATH;
-		$this->plugin_url  = GDBBPRESSATTACHMENTS_URL;
-		$this->wp_version  = substr( str_replace( '.', '', $wp_version ), 0, 2 );
-
 		$gdd = new GDATTDefaults();
 
 		$this->o = get_option( 'gd-bbpress-attachments' );
@@ -46,7 +36,7 @@ class GDATTCore {
 		add_action( 'after_setup_theme', array( $this, 'load' ), 5 );
 	}
 
-	public static function instance() {
+	public static function instance() : GDATTCore {
 		static $instance = false;
 
 		if ( $instance === false ) {
@@ -65,7 +55,7 @@ class GDATTCore {
 
 		$unset = array();
 		foreach ( $old as $key => $value ) {
-			if ( ! isset( $new[ $key ] ) ) {
+			if ( ! array_key_exists( $key, $new ) ) {
 				$unset[] = $key;
 			}
 		}
@@ -77,7 +67,7 @@ class GDATTCore {
 		return $old;
 	}
 
-	public function load() {
+	public function load() : void {
 		load_plugin_textdomain( 'gd-bbpress-attachments' );
 
 		add_action( 'init', array( $this, 'init_thumbnail_size' ), 1 );
@@ -98,16 +88,16 @@ class GDATTCore {
 		}
 	}
 
-	public function init_thumbnail_size() {
+	public function init_thumbnail_size() : void {
 		add_image_size( 'd4p-bbp-thumb', $this->o['image_thumbnail_size_x'], $this->o['image_thumbnail_size_y'], true );
 	}
 
-	public function delete_attachments() {
+	public function delete_attachments() : void {
 		if ( isset( $_GET['d4pbbaction'] ) ) {
 			$nonce = wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ?? '' ) ), 'd4p-bbpress-attachments' );
 
 			if ( $nonce ) {
-				global $user_ID;
+				$user_id = get_current_user_id();
 
 				$action = sanitize_text_field( wp_unslash( $_GET['d4pbbaction'] ) );
 				$att_id = absint( $_GET['att_id'] ?? 0 );
@@ -117,8 +107,14 @@ class GDATTCore {
 					return;
 				}
 
-				$post      = get_post( $bbp_id );
-				$author_ID = $post->post_author;
+				$post       = get_post( $bbp_id );
+				$attachment = get_post( $att_id );
+
+				if ( ! $post || ! $attachment || 'attachment' !== $attachment->post_type ) {
+					return;
+				}
+
+				$is_author  = $user_id > 0 && (int) $post->post_author === $user_id && (int) $attachment->post_author === $user_id;
 
 				$file = get_attached_file( $att_id );
 				$file = pathinfo( $file, PATHINFO_BASENAME );
@@ -128,7 +124,7 @@ class GDATTCore {
 					$allow = d4p_bba_o( 'delete_visible_to_admins' );
 				} else if ( d4p_is_user_moderator() ) {
 					$allow = d4p_bba_o( 'delete_visible_to_moderators' );
-				} else if ( $author_ID == $user_ID ) {
+				} else if ( $is_author ) {
 					$allow = d4p_bba_o( 'delete_visible_to_author' );
 				}
 
@@ -137,7 +133,7 @@ class GDATTCore {
 
 					add_post_meta( $bbp_id, '_bbp_attachment_log', array(
 							'code' => 'delete_attachment',
-							'user' => $user_ID,
+							'user' => $user_id,
 							'file' => $file,
 						)
 					);
@@ -150,7 +146,7 @@ class GDATTCore {
 
 					add_post_meta( $bbp_id, '_bbp_attachment_log', array(
 							'code' => 'detach_attachment',
-							'user' => $user_ID,
+							'user' => $user_id,
 							'file' => $file,
 						)
 					);
@@ -163,7 +159,7 @@ class GDATTCore {
 		}
 	}
 
-	public function delete_post( $id ) {
+	public function delete_post( $id ) : void {
 		if ( d4p_has_bbpress() ) {
 			if ( bbp_is_reply( $id ) || bbp_is_topic( $id ) ) {
 				if ( $this->o['delete_attachments'] == 'delete' ) {
@@ -234,19 +230,16 @@ class GDATTCore {
 		$allowed = false;
 
 		if ( is_user_logged_in() ) {
-			if ( ! isset( $this->o['roles_to_upload'] ) ) {
-				$allowed = true;
-			} else {
-				$value = $this->o['roles_to_upload'];
-				if ( ! is_array( $value ) ) {
-					$allowed = true;
-				}
+			$roles = $this->o['roles_to_upload'] ?? null;
 
-				global $current_user;
-				if ( is_array( $current_user->roles ) ) {
-					$matched = array_intersect( $current_user->roles, $value );
-					$allowed = ! empty( $matched );
-				}
+			if ( null === $roles ) {
+				$allowed = true;
+			} else if ( is_array( $roles ) ) {
+				$roles   = array_filter( $roles, 'is_string' );
+				$allowed = ! empty( array_intersect(
+					wp_get_current_user()->roles,
+					$roles
+				) );
 			}
 		}
 

@@ -66,7 +66,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <span><?php esc_html_e( 'Allow upload to', 'gd-bbpress-attachments' ); ?></span></legend>
 							<?php foreach ( $_user_roles as $role => $title ) { ?>
                                 <label for="roles_to_upload_<?php echo esc_html( $role ); ?>">
-                                    <input type="checkbox" <?php if ( ! isset( $options["roles_to_upload"] ) || in_array( $role, $options["roles_to_upload"] ) ) {
+                                    <input type="checkbox" <?php if (
+										! isset( $options["roles_to_upload"] ) ||
+										( is_array( $options["roles_to_upload"] ) && in_array( $role, $options["roles_to_upload"], true ) )
+									) {
 										echo " checked";
 									} ?> value="<?php echo esc_html( $role ); ?>" id="roles_to_upload_<?php echo esc_attr( $role ); ?>" name="roles_to_upload[]"/>
 									<?php echo esc_html( $title ); ?>

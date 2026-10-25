@@ -1,16 +1,15 @@
 <?php
-
 /**
- * Plugin Name:       GD bbPress Attachments
+ * Plugin Name:       forumAttachments for bbPress
  * Plugin URI:        https://www.dev4press.com/plugins/gd-bbpress-attachments/
  * Description:       Implement attachments upload to the topics and replies in bbPress plugin through a media library and add additional forum-based controls.
  * Author:            Milan Petrovic
  * Author URI:        https://www.dev4press.com/
  * Text Domain:       gd-bbpress-attachments
- * Version:           4.9.4
- * Requires at least: 6.2
- * Tested up to:      7.0
- * Requires PHP:      7.4
+ * Version:           5.0
+ * Requires at least: 6.6
+ * Tested up to:      7.2
+ * Requires PHP:      8.0
  * Requires Plugins:  bbpress
  * License:           GPLv3 or later
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
@@ -29,7 +28,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <https://www.gnu.org/licenses/>
  */
 
 if ( ! defined( 'GDBBPRESSATTACHMENTS_CAP' ) ) {

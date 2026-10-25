@@ -6,13 +6,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GDATTAdmin {
 	private array $page_ids = array();
-	private bool $admin_plugin = false;
 
 	public function __construct() {
 		add_action( 'after_setup_theme', array( $this, 'load' ) );
 	}
 
-	public static function instance() {
+	public static function instance() : GDATTAdmin {
 		static $instance = false;
 
 		if ( $instance === false ) {
@@ -22,14 +21,15 @@ class GDATTAdmin {
 		return $instance;
 	}
 
-	public function admin_init() {
+	public function admin_init() : void {
 		$_page   = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$_tab    = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : ''; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$_action = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : ''; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-		$this->admin_plugin = $_page === 'gdbbpress_attachments';
+		$admin_plugin = false;
+		$admin_plugin = $_page === 'gdbbpress_attachments';
 
-		if ( $this->admin_plugin ) {
+		if ( $admin_plugin ) {
 			wp_enqueue_style( 'gd-bbpress-attachments', GDBBPRESSATTACHMENTS_URL . "css/admin.css", array(), GDBBPRESSATTACHMENTS_VERSION );
 
 			if ( $_tab === 'tools' ) {
@@ -44,7 +44,7 @@ class GDATTAdmin {
 		}
 	}
 
-	public function load() {
+	public function load() : void {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
@@ -52,8 +52,8 @@ class GDATTAdmin {
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_links' ), 10, 2 );
 	}
 
-	public function admin_menu() {
-		$this->page_ids[] = add_submenu_page( 'edit.php?post_type=forum', 'GD bbPress Attachments', __( 'Attachments', 'gd-bbpress-attachments' ), GDBBPRESSATTACHMENTS_CAP, 'gdbbpress_attachments', array(
+	public function admin_menu() : void {
+		$this->page_ids[] = add_submenu_page( 'edit.php?post_type=forum', 'forumAttachments for bbPress', __( 'Attachments', 'gd-bbpress-attachments' ), GDBBPRESSATTACHMENTS_CAP, 'gdbbpress_attachments', array(
 			$this,
 			'menu_attachments',
 		) );
@@ -61,7 +61,7 @@ class GDATTAdmin {
 		$this->admin_load_hooks();
 	}
 
-	public function admin_load_hooks() {
+	public function admin_load_hooks() : void {
 		foreach ( $this->page_ids as $id ) {
 			add_action( 'load-' . $id, array( $this, 'load_admin_page' ) );
 		}
@@ -85,7 +85,7 @@ class GDATTAdmin {
 		return $links;
 	}
 
-	public function load_admin_page() {
+	public function load_admin_page() : void {
 		$screen = get_current_screen();
 
 		$screen->set_help_sidebar( '
@@ -117,7 +117,7 @@ class GDATTAdmin {
 		) );
 	}
 
-	public function menu_attachments() {
+	public function menu_attachments() : void {
 		$options     = GDATTCore::instance()->o;
 		$_user_roles = d4p_bbpress_get_user_roles();
 

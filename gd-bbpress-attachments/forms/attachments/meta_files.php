@@ -18,7 +18,7 @@ if ( empty( $attachments ) ) {
 		$file     = get_attached_file( $attachment->ID );
 		$filename = pathinfo( $file, PATHINFO_BASENAME );
 		echo '<li>' . esc_html( $filename );
-		echo ' - <a href="' . admin_url( 'media.php?action=edit&attachment_id=' . absint( $attachment->ID ) ) . '">' . __( 'edit', 'gd-bbpress-attachments' ) . '</a>';  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo ' - <a href="' . esc_url( admin_url( 'media.php?action=edit&attachment_id=' . absint( $attachment->ID ) ) ) . '">' . esc_html__( 'edit', 'gd-bbpress-attachments' ) . '</a>';  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '</li>';
 	}
 	echo '</ul>';

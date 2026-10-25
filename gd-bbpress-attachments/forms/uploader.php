@@ -15,8 +15,8 @@ $file_size = $file_size ?? 512;
 
 			$size = $file_size < 1024 ? $file_size . " KB" : floor( $file_size / 1024 ) . " MB";
 
-	        /* translators: 1: Allowed size value. */
-			printf( esc_html__( 'Maximum file size allowed is %s.', 'gd-bbpress-attachments' ), $size ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			/* translators: 1: Allowed size value. */
+			printf( esc_html__( 'Maximum file size allowed is %s.', 'gd-bbpress-attachments' ), esc_html( $size ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			?></p>
     </div>

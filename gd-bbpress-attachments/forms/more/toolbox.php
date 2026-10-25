@@ -38,12 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <fieldset>
         <h3><?php esc_html_e( 'Special upgrade discount', 'gd-bbpress-attachments' ); ?></h3>
-        <p><?php
-
-			/* translators: 1: Discount with STRONG tag. */
-			echo sprintf( __( 'Buy forumToolbox Pro for bbPress license or bbPress Plugins Club Membership license and get %s discount using this coupon', 'gd-bbpress-attachments' ), '<strong>10%</strong>' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
-			?>:<br/>
+        <p><?php esc_html_e( 'Buy forumToolbox Pro for bbPress license or bbPress Plugins Club Membership license and get 10% discount using this coupon', 'gd-bbpress-attachments' ); ?>:<br/>
             <strong style="color: #c00; font-size: 20px;">BBFREETOPRO</strong></p>
     </fieldset>
 

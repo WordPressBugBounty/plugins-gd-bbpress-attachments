@@ -5,8 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class GDATTFront {
-	private $edit_mode = false;
-	private $icons = array(
+	private bool $edit_mode = false;
+	private array $icons = array(
 		'code'       => 'c|cc|h|js|class',
 		'xml'        => 'xml',
 		'excel'      => 'xla|xls|xlsx|xlt|xlw|xlam|xlsb|xlsm|xltm',
@@ -29,7 +29,7 @@ class GDATTFront {
 		add_action( 'bbp_init', array( $this, 'load' ) );
 	}
 
-	public static function instance() {
+	public static function instance() : GDATTFront {
 		static $instance = false;
 
 		if ( $instance === false ) {
@@ -39,7 +39,7 @@ class GDATTFront {
 		return $instance;
 	}
 
-	public function load() {
+	public function load() : void {
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 
 		add_action( 'bbp_theme_before_reply_form_submit_wrapper', array( $this, 'embed_form' ) );
@@ -72,7 +72,7 @@ class GDATTFront {
 		return 'generic';
 	}
 
-	public function register_scripts_and_styles() {
+	public function register_scripts_and_styles() : void {
 		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
 		$files = 'front' . ( $debug ? '' : '.min' );
 
@@ -80,62 +80,120 @@ class GDATTFront {
 		wp_register_script( 'gdatt-attachments', GDBBPRESSATTACHMENTS_URL . 'js/' . $files . '.js', array( 'jquery' ), GDBBPRESSATTACHMENTS_VERSION, true );
 	}
 
-	public function include_scripts_and_styles() {
+	public function include_scripts_and_styles() : void {
+		$forum_id  = d4p_get_forum_id();
+		$max_files = max( 0, (int) GDATTCore::instance()->get_max_files( false, $forum_id ) );
+
 		wp_enqueue_style( 'gdatt-attachments' );
 		wp_enqueue_script( 'gdatt-attachments' );
 
 		wp_localize_script( 'gdatt-attachments', 'gdbbPressAttachmentsInit', array(
-			'max_files'    => apply_filters( 'd4p_bbpressattchment_allow_upload', GDATTCore::instance()->get_max_files(), bbp_get_forum_id() ),
+			'max_files'    => $max_files,
 			'are_you_sure' => esc_html__( 'This operation is not reversible. Are you sure?', 'gd-bbpress-attachments' ),
 		) );
 	}
 
-	public function wp_enqueue_scripts() {
+	public function wp_enqueue_scripts() : void {
 		if ( d4p_bba_o( 'include_always' ) == 1 || d4p_is_bbpress() ) {
 			$this->include_scripts_and_styles();
 		}
 	}
 
-	public function edit_topic( $topic_id, $forum_id, $anonymous_data, $topic_author ) {
+	public function edit_topic( $topic_id, $forum_id, $anonymous_data, $topic_author ) : void {
 		$this->edit_mode = true;
 		$this->process_attachments( 0, $topic_id, $forum_id, $anonymous_data, $topic_author );
 	}
 
-	public function edit_reply( $reply_id, $topic_id, $forum_id, $anonymous_data = null, $reply_author = null ) {
+	public function edit_reply( $reply_id, $topic_id, $forum_id, $anonymous_data = null, $reply_author = null ) : void {
 		$this->edit_mode = true;
 		$this->process_attachments( $reply_id, $topic_id, $forum_id, $anonymous_data, $reply_author );
 	}
 
-	public function save_topic( $topic_id, $forum_id, $anonymous_data, $topic_author ) {
+	public function save_topic( $topic_id, $forum_id, $anonymous_data, $topic_author ) : void {
 		$this->edit_mode = false;
 		$this->process_attachments( 0, $topic_id, $forum_id, $anonymous_data, $topic_author );
 	}
 
-	public function save_reply( $reply_id, $topic_id, $forum_id, $anonymous_data = null, $reply_author = null ) {
+	public function save_reply( $reply_id, $topic_id, $forum_id, $anonymous_data = null, $reply_author = null ) : void {
 		$this->edit_mode = false;
 		$this->process_attachments( $reply_id, $topic_id, $forum_id, $anonymous_data, $reply_author );
 	}
 
-	public function process_attachments( $reply_id, $topic_id, $forum_id, $anonymous_data = null, $reply_author = null ) {
+	public function process_attachments( $reply_id, $topic_id, $forum_id, $anonymous_data = null, $reply_author = null ) : void {
 		$uploads  = array();
 		$revision = false;
+
+		if ( ! apply_filters( 'd4p_bbpressattchment_allow_upload', GDATTCore::instance()->is_user_allowed(), $forum_id ) ) {
+			return;
+		}
+
+		if ( ! apply_filters( 'd4p_bbpressattchment_forum_enabled', GDATTCore::instance()->enabled_for_forum( $forum_id ), $forum_id ) ) {
+			return;
+		}
+
+		$max_files = max( 0, (int) GDATTCore::instance()->get_max_files( false, $forum_id ) );
 
 		if ( ! empty( $_FILES ) && ! empty( $_FILES['d4p_attachment'] ) ) { //phpcs:ignore 	WordPress.Security.NonceVerification.Missing
 			require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
-			$errors    = new gdbbp_Error();
-			$overrides = array( 'test_form' => false, 'upload_error_handler' => 'd4p_bbattachment_handle_upload_error' );
+			$errors          = new gdbbp_Error();
+			$overrides       = array( 'test_form' => false, 'upload_error_handler' => 'd4p_bbattachment_handle_upload_error' );
+			$attempted_files = 0;
+			$files           = $_FILES['d4p_attachment']; //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$valid_structure = is_array( $files ) && is_array( $files['error'] ?? null );
 
-			foreach ( $_FILES['d4p_attachment']['error'] as $key => $error ) { //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				$file_name = $_FILES['d4p_attachment']['name'][ $key ]; //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			if ( $valid_structure ) {
+				foreach ( array( 'name', 'type', 'size', 'tmp_name' ) as $field ) {
+					if ( isset( $files[ $field ] ) && ( ! is_array( $files[ $field ] ) || array_diff_key( $files[ $field ], $files['error'] ) ) ) {
+						$valid_structure = false;
+						break;
+					}
+				}
+			}
+
+			if ( ! $valid_structure ) {
+				$errors->add( 'php_upload', 'Invalid upload data.', __( 'Unknown file', 'gd-bbpress-attachments' ) );
+				$files = array( 'error' => array() );
+			}
+
+			foreach ( $files['error'] as $key => $error ) {
+				$file_name = $files['name'][ $key ] ?? '';
+
+				if ( ! is_int( $error ) || $error < UPLOAD_ERR_OK || ! is_string( $file_name ) ) {
+					$errors->add( 'php_upload', 'Invalid upload data.', is_string( $file_name ) && $file_name !== '' ? $file_name : __( 'Unknown file', 'gd-bbpress-attachments' ) );
+					continue;
+				}
+
+				if ( $error == UPLOAD_ERR_NO_FILE ) {
+					$errors->add( 'php_upload', 'File not uploaded.', $file_name !== '' ? $file_name : __( 'Unknown file', 'gd-bbpress-attachments' ) );
+					continue;
+				}
+
+				if ( $attempted_files >= $max_files ) {
+					$errors->add( 'd4p_upload', 'Maximum number of files to upload exceeded.', sanitize_file_name( $file_name ) );
+					continue;
+				}
+
+				$attempted_files ++;
 
 				if ( $error == UPLOAD_ERR_OK ) {
+					if (
+						$file_name === '' ||
+						! isset( $files['type'][ $key ], $files['size'][ $key ], $files['tmp_name'][ $key ] ) ||
+						! is_string( $files['type'][ $key ] ) ||
+						! is_int( $files['size'][ $key ] ) || $files['size'][ $key ] < 0 ||
+						! is_string( $files['tmp_name'][ $key ] ) || $files['tmp_name'][ $key ] === ''
+					) {
+						$errors->add( 'php_upload', 'Invalid upload data.', $file_name !== '' ? $file_name : __( 'Unknown file', 'gd-bbpress-attachments' ) );
+						continue;
+					}
+
 					$file = array(
 						'name'     => $file_name,
-						'type'     => $_FILES['d4p_attachment']['type'][ $key ], //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						'size'     => $_FILES['d4p_attachment']['size'][ $key ], //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						'tmp_name' => $_FILES['d4p_attachment']['tmp_name'][ $key ], //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						'error'    => $_FILES['d4p_attachment']['error'][ $key ], //phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						'type'     => $files['type'][ $key ],
+						'size'     => $files['size'][ $key ],
+						'tmp_name' => $files['tmp_name'][ $key ],
+						'error'    => $error,
 					);
 
 					$file_name = sanitize_file_name( $file_name );
@@ -155,9 +213,6 @@ class GDATTFront {
 					switch ( $error ) {
 						default:
 							$errors->add( 'php_upload', 'File upload error.', $file_name );
-							break;
-						case UPLOAD_ERR_NO_FILE:
-							$errors->add( 'php_upload', 'File not uploaded.', $file_name );
 							break;
 						case UPLOAD_ERR_INI_SIZE:
 							$errors->add( 'php_upload', 'Upload file size exceeds PHP maximum file size allowed.', $file_name );
@@ -235,12 +290,13 @@ class GDATTFront {
 		return true;
 	}
 
-	public function show_attachments_icon() {
+	public function show_attachments_icon() : void {
 		$topic_id = bbp_get_topic_id();
 		$count    = d4p_topic_attachments_count( $topic_id, true );
 
 		if ( $count > 0 ) {
-			echo '<span class="bbp-attachments-count" title="' . $count . ' ' . _n( 'attachment', 'attachments', $count, 'gd-bbpress-attachments' ) . '"></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$label = sprintf( _n( '%s attachment', '%s attachments', $count, 'gd-bbpress-attachments' ), number_format_i18n( $count ) );
+			printf( '<span class="bbp-attachments-count" role="img" aria-label="%1$s" title="%1$s"></span>', esc_attr( $label ) );
 		}
 	}
 
@@ -254,13 +310,14 @@ class GDATTFront {
 
 		if ( ! empty( $attachments ) ) {
 			$content .= '<div class="bbp-attachments">';
-			$content .= '<h6>' . __( 'Attachments', 'gd-bbpress-attachments' ) . ':</h6>';
+			$content .= '<h6>' . esc_html__( 'Attachments', 'gd-bbpress-attachments' ) . ':</h6>';
 
 			if ( ! is_user_logged_in() && GDATTCore::instance()->is_hidden_from_visitors() ) {
 				$login_url = apply_filters( 'd4p_bbpressattchment_login_url', wp_login_url( get_permalink() ), $post );
 
 				/* translators: 1: Replaced with Login URL. */
-				$content .= sprintf( __( 'You must be <a href=\'%s\'>logged in</a> to view attached files.', 'gd-bbpress-attachments' ), $login_url );
+				$notice  = sprintf( __( 'You must be <a href=\'%s\'>logged in</a> to view attached files.', 'gd-bbpress-attachments' ), esc_url( $login_url ) );
+				$content .= wp_kses( $notice, array( 'a' => array( 'href' => true ) ) );
 			} else {
 				$listing    = '<ol';
 				$thumbnails = '<ol';
@@ -280,6 +337,8 @@ class GDATTFront {
 				foreach ( $attachments as $attachment ) {
 					$actions = array();
 
+					$is_author = $user_ID > 0 && (int) $author_id === (int) $user_ID && (int) $attachment->post_author === (int) $user_ID;
+
 					$url = add_query_arg( '_wpnonce', wp_create_nonce( 'd4p-bbpress-attachments' ) );
 					$url = add_query_arg( 'att_id', $attachment->ID, $url );
 					$url = add_query_arg( 'bbp_id', $id, $url );
@@ -289,7 +348,7 @@ class GDATTFront {
 						$allow = d4p_bba_o( 'delete_visible_to_admins' );
 					} else if ( d4p_is_user_moderator() ) {
 						$allow = d4p_bba_o( 'delete_visible_to_moderators' );
-					} else if ( $author_id == $user_ID ) {
+					} else if ( $is_author ) {
 						$allow = d4p_bba_o( 'delete_visible_to_author' );
 					}
 
@@ -340,10 +399,10 @@ class GDATTFront {
 
 					$item_class = 'd4p-bbp-attachment d4p-bbp-attachment-' . $ext . ' ' . $class_li;
 
-					$item = '<li id="d4p-bbp-attachment_' . esc_attr( $attachment->ID ) . '" class="' . esc_attr( sanitize_html_class( $item_class ) ) . '">';
+					$item = '<li id="d4p-bbp-attachment_' . esc_attr( $attachment->ID ) . '" class="' . esc_attr( d4p_sanitize_html_classes( $item_class ) ) . '">';
 
 					if ( $html == '' ) {
-						$html = $filename;
+						$html = esc_html( $filename );
 
 						if ( d4p_bba_o( "attachment_icons" ) == 1 ) {
 							$class_span = "bbp-atticon bbp-atticon-" . $this->icon( $ext );
@@ -355,16 +414,16 @@ class GDATTFront {
 							$item .= '<div style="width: ' . esc_attr( d4p_bba_o( "image_thumbnail_size_x" ) ) . 'px" class="wp-caption">';
 						}
 
-						$item .= '<a class="' . esc_attr( sanitize_html_class( $class_a ) ) . '"' . $rel_a . ' href="' . esc_url( $file_url ) . '" title="' . esc_attr( $a_title ) . '">' . $html . '</a>';
+						$item .= '<a class="' . esc_attr( d4p_sanitize_html_classes( $class_a ) ) . '"' . $rel_a . ' href="' . esc_url( $file_url ) . '" title="' . esc_attr( $a_title ) . '">' . $html . '</a>';
 
 						if ( $caption ) {
-							$a_title = '<a href="' . esc_url( $file_url ) . '" download>' . $a_title . '</a>';
+							$a_title = '<a href="' . esc_url( $file_url ) . '" download>' . esc_html( $a_title ) . '</a>';
 
 							$item .= '<p class="wp-caption-text">' . $a_title . '<br/>' . $actions . '</p></div>';
 						}
 					} else {
-						$item .= '<span role="presentation" class="' . esc_attr( sanitize_html_class( $class_span ) ) . '"></span> ';
-						$item .= '<div class="d4p-bbp-att-wrapper"><a class="' . esc_attr( sanitize_html_class( $class_a ) ) . '"' . $rel_a . ' href="' . esc_url( $file_url ) . '" title="' . esc_attr( $a_title ) . '" download>' . $html . '</a>' . $actions . '</div>';
+						$item .= '<span role="presentation" class="' . esc_attr( d4p_sanitize_html_classes( $class_span ) ) . '"></span> ';
+						$item .= '<div class="d4p-bbp-att-wrapper"><a class="' . esc_attr( d4p_sanitize_html_classes( $class_a ) ) . '"' . $rel_a . ' href="' . esc_url( $file_url ) . '" title="' . esc_attr( $a_title ) . '" download>' . $html . '</a>' . $actions . '</div>';
 					}
 
 					$item .= '</li>';
@@ -398,7 +457,7 @@ class GDATTFront {
 
 			if ( ! empty( $errors ) ) {
 				$content .= '<div class="bbp-attachments-errors">';
-				$content .= '<h6>' . __( 'Upload Errors', 'gd-bbpress-attachments' ) . ':</h6>';
+				$content .= '<h6>' . esc_html__( 'Upload Errors', 'gd-bbpress-attachments' ) . ':</h6>';
 				$content .= '<ol';
 
 				$class_li = 'bbp-file-error';
@@ -410,7 +469,7 @@ class GDATTFront {
 				$content .= '>';
 
 				foreach ( $errors as $error ) {
-					$content .= '<li class="' . esc_attr( sanitize_html_class( $class_li ) ) . '"><span role="presentation" class="' . esc_attr( sanitize_html_class( $class_li ) ) . '"></span> ';
+					$content .= '<li class="' . esc_attr( d4p_sanitize_html_classes( $class_li ) ) . '"><span role="presentation" class="' . esc_attr( d4p_sanitize_html_classes( $class_li ) ) . '"></span> ';
 					$content .= '<div class="d4p-bbp-att-wrapper"><strong>' . esc_html( $error['file'] ) . '</strong>: ' . esc_html__( $error["message"], "gd-bbpress-attachments" ) . '</div></li>'; //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				}
 
@@ -421,25 +480,29 @@ class GDATTFront {
 		return $content;
 	}
 
-	public function embed_form() {
-		$can_upload = apply_filters( 'd4p_bbpressattchment_allow_upload', GDATTCore::instance()->is_user_allowed(), d4p_get_forum_id() );
+	public function embed_form() : void {
+		$forum_id = d4p_get_forum_id();
+
+		$can_upload = apply_filters( 'd4p_bbpressattchment_allow_upload', GDATTCore::instance()->is_user_allowed(), $forum_id );
 		if ( ! $can_upload ) {
 			return;
 		}
 
-		$is_enabled = apply_filters( 'd4p_bbpressattchment_forum_enabled', GDATTCore::instance()->enabled_for_forum(), d4p_get_forum_id() );
+		$is_enabled = apply_filters( 'd4p_bbpressattchment_forum_enabled', GDATTCore::instance()->enabled_for_forum( $forum_id ), $forum_id );
 		if ( ! $is_enabled ) {
 			return;
 		}
 
-		$file_size = apply_filters( 'd4p_bbpressattchment_max_file_size', GDATTCore::instance()->get_file_size(), d4p_get_forum_id() );
+		$file_size = apply_filters( 'd4p_bbpressattchment_max_file_size', GDATTCore::instance()->get_file_size( false, $forum_id ), $forum_id );
 
 		include( GDBBPRESSATTACHMENTS_PATH . 'forms/uploader.php' );
 	}
 }
 
 $d4p_upload_error_messages = array(
+	__( 'Invalid upload data.', 'gd-bbpress-attachments' ),
 	__( 'File exceeds allowed file size.', 'gd-bbpress-attachments' ),
+	__( 'Maximum number of files to upload exceeded.', 'gd-bbpress-attachments' ),
 	__( 'File not uploaded.', 'gd-bbpress-attachments' ),
 	__( 'Upload file size exceeds PHP maximum file size allowed.', 'gd-bbpress-attachments' ),
 	__( 'Upload file size exceeds FORM specified file size.', 'gd-bbpress-attachments' ),

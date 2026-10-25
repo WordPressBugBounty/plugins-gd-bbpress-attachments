@@ -5,10 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class GDATTDefaults {
-	var $default_options = array(
-		'version'                      => '4.9.4',
-		'date'                         => '2026.04.12.',
-		'build'                        => 2840,
+	public array $default_options = array(
+		'version'                      => '5.0',
+		'date'                         => '2026.10.25.',
+		'build'                        => 5000,
 		'status'                       => 'Stable',
 		'product_id'                   => 'gd-bbpress-attachments',
 		'edition'                      => 'free',
