@@ -114,6 +114,10 @@ class GDATTCore {
 					return;
 				}
 
+				if ( ( ! bbp_is_topic( $bbp_id ) && ! bbp_is_reply( $bbp_id ) ) || $attachment->post_parent !== $bbp_id ) {
+					return;
+				}
+
 				$is_author  = $user_id > 0 && (int) $post->post_author === $user_id && (int) $attachment->post_author === $user_id;
 
 				$file = get_attached_file( $att_id );

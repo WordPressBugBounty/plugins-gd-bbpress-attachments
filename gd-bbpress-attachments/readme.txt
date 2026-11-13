@@ -1,7 +1,7 @@
 === forumAttachments for bbPress ===
 Contributors: GDragoN, freemius
 Donate link: https://www.dev4press.com/plugins/gd-bbpress-attachments/
-Stable tag: 5.0
+Stable tag: 5.0.1
 Tags: dev4press, bbpress, attachments, upload, limit
 Requires at least: 6.6
 Requires PHP: 8.0
@@ -124,6 +124,11 @@ Few updates and improvements.
 Few updates and improvements.
 
 == Changelog ==
+= 5.0.1 (2026.11.13) =
+* Edit: restrict attachment deletion and detachment to the specified topic or reply
+* Fix: empty attachment fields incorrectly logged as failed uploads
+* Fix: hide a single logged file-not-uploaded error on the frontend
+
 = 5.0 (2026.10.25) =
 * New: plugin name change in line with other plugins rebranding
 * Edit: improvements to the attachment upload handling

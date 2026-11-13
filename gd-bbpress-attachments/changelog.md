@@ -2,6 +2,11 @@
 
 ## Changelog
 
+### Version: 5.0.1 (2026.11.13)
+* **edit** restrict attachment deletion and detachment to the specified topic or reply
+* **fix** empty attachment fields incorrectly logged as failed uploads
+* **fix** hide a single logged file-not-uploaded error on the frontend
+
 ### Version: 5.0 (2026.10.25)
 * **new** plugin name changed in line with other plugins rebranding
 * **edit** improvements to the attachment upload handling

@@ -165,7 +165,10 @@ class GDATTFront {
 				}
 
 				if ( $error == UPLOAD_ERR_NO_FILE ) {
-					$errors->add( 'php_upload', 'File not uploaded.', $file_name !== '' ? $file_name : __( 'Unknown file', 'gd-bbpress-attachments' ) );
+					if ( $file_name !== '' ) {
+						$errors->add( 'php_upload', 'File not uploaded.', $file_name );
+					}
+
 					continue;
 				}
 
@@ -454,6 +457,10 @@ class GDATTFront {
 
 		if ( ( d4p_bba_o( 'errors_visible_to_author' ) == 1 && $author_id == $user_ID ) || ( d4p_bba_o( 'errors_visible_to_admins' ) == 1 && d4p_is_user_admin() ) || ( d4p_bba_o( 'errors_visible_to_moderators' ) == 1 && d4p_is_user_moderator() ) ) {
 			$errors = get_post_meta( $id, '_bbp_attachment_upload_error' );
+
+			if ( count( $errors ) === 1 && ( $errors[0]['message'] ?? '' ) === 'File not uploaded.' ) {
+				$errors = array();
+			}
 
 			if ( ! empty( $errors ) ) {
 				$content .= '<div class="bbp-attachments-errors">';
